@@ -1,6 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <style>
+    input[type=radio],input[type="checkbox"] {
+      display: none;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      flex-grow: 1;
+      justify-content: center;
+    }
+
+    .checker {
+      margin: .25rem;
+    }
+
+    .checker-radio label {
+      font-size: 0;
+      height: 14px;
+      width: 14px;
+      border: 2px solid #000;
+      border-radius: 7px;
+      display: inline-block;
+    }
+    .checker-checkbox label {
+      font-size: 0;
+      height: 14px;
+      width: 14px;
+      border: 2px solid #000;
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    input[type=radio]:checked ~ label,
+    input[type=checkbox]:checked ~ label {
+      background-color: #F00;
+    }
+  </style>
   <script>
     var Checker = Checker || {};
 
@@ -15,10 +53,23 @@
 
       els.forEach(function(el, index) {
         var opts = JSON.parse(el.dataset.checker);
-        var checkbox = document.createElement("INPUT");
+        var checkbox = document.createElement("input");
+        var labelEl = document.createElement("label");
+        var label = opts.label || opts.name || 'checker'+index;
+        var checkboxContainer = document.createElement("div");
+
+        checkboxContainer.classList.add("checker");
+
+        opts.type === "radio" ?  checkboxContainer.classList.add("checker-radio") :  checkboxContainer.classList.add("checker-checkbox");
+
         checkbox.setAttribute("type", opts.type);
         checkbox.setAttribute("name", opts.name);
-        el.parentNode.replaceChild(checkbox, el)
+        checkbox.setAttribute("id", "checker-"+index);
+        labelEl.innerHTML = label;
+        labelEl.setAttribute("for", "checker-"+index);
+        el.parentNode.replaceChild(checkboxContainer, el);
+        checkboxContainer.append(labelEl);
+        checkboxContainer.insertBefore(checkbox, labelEl);
         console.log(opts);
       });
 
@@ -31,7 +82,9 @@
   </script>
 </head>
 <body>
-  <span data-checker='{ "type": "radio", "name": "test", "parent": "happy"}'></span>
-  <span data-checker='{ "type": "checkbox", "name": "test", "parent": "happy"}'></span>
+  <div class="container">
+    <span data-checker='{ "type": "radio", "name": "test"}'></span>
+    <span data-checker='{ "type": "checkbox", "label":"checkbox", "name": "test-again"}'></span>
+  </div>
 </body>
 </html>
