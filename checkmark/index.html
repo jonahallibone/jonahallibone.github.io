@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script>
+    var Checker = Checker || {};
+
+    Checker.set = function(el) {
+
+      if(typeof el === undefined  || typeof el === 'undefined' || el.length < 1) {
+        console.error('Checker error: ' + el + ' is not a valid');
+        return ;
+      }
+
+      var els = document.querySelectorAll('[data-checker]');
+
+      els.forEach(function(el, index) {
+        var opts = JSON.parse(el.dataset.checker);
+        var checkbox = document.createElement("INPUT");
+        checkbox.setAttribute("type", opts.type);
+        checkbox.setAttribute("name", opts.name);
+        el.parentNode.replaceChild(checkbox, el)
+        console.log(opts);
+      });
+
+    }
+
+    window.onload = function() {
+      Checker.set('data-checker');
+    }
+
+  </script>
+</head>
+<body>
+  <span data-checker='{ "type": "radio", "name": "test", "parent": "happy"}'></span>
+  <span data-checker='{ "type": "checkbox", "name": "test", "parent": "happy"}'></span>
+</body>
+</html>
