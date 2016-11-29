@@ -64,7 +64,7 @@
     }
 
     .checker-switch label {
-      width: 70px;
+      width: 50px;
       height: 25px;
       border: 2px solid #0074D9;
       border-radius: 20px;
@@ -112,18 +112,34 @@
       content: '';
       position: absolute;
       transition: ease-in-out .15s all;
-      height: 15px;
-      width: 15px;
+      height: 13px;
+      width: 13px;
       border-radius: 50%;
-      background-color: #0074D9;
+      background-color: #FFF;
+      box-shadow: 0 0  2px 1px rgba(0, 0, 0, 0.1);
       top: 50%;
       transform: translateY(-50%);
-      margin-left: 3px;
+      margin-left: 4px;
+      transition: .25s ease-in-out all;
+    }
+
+    .checker-switch input[type=checkbox] ~ label:before {
+      content: '';
+      position: absolute;
+      height: calc(100% - 4px);
+      width: calc(100% - 4px);
+      left: 2px;
+      top: 2px;
+      border-radius: 8px;
+      background-color: #DDD;
       transition: .25s ease-in-out all;
     }
 
     .checker-switch input[type=checkbox]:checked ~ label:after {
-      margin-left: calc(100% - 18px);
+      margin-left: calc(100% - 17px);
+    }
+    .checker-switch input[type=checkbox]:checked ~ label:before {
+      background-color: #4CD964;
     }
 
 
@@ -201,7 +217,7 @@
     <span data-checker='{ "type": "radio", "name": "radio", "label": "Radio Button 1"}'></span>
     <span data-checker='{ "type": "radio", "name": "radio", "label": "Radio Button 2"}'></span>
     <span data-checker='{ "type": "checkbox", "name": "test", "label": "Checkbox" }'></span>
-    <span data-checker='{ "type": "switch", "name": "test", "label": "On / Off" }'></span>
+    <span data-checker='{ "type": "switch", "name": "test", "label": "Off / On" }'></span>
   </div>
 </body>
 </html>
