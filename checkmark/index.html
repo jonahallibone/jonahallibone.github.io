@@ -2,42 +2,132 @@
 <html>
 <head>
   <style>
+
+    /*Global styling */
+
+    html,body {
+      width: 100%;
+      height: 100%;
+      margin: 0 auto;
+    }
+
+
     input[type=radio],input[type="checkbox"] {
       display: none;
     }
 
     .container {
+      height: 100%;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       flex-grow: 1;
       justify-content: center;
+      align-items: center;
+      position: relative;
     }
+
+    /* Styling for inputs */
 
     .checker {
       margin: .25rem;
+      display: flex;
+      align-items: center;
+    }
+
+    /*Styled element */
+    .checker label {
+      font-size: 0;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    /* Actual label shown */
+    .checker-label {
+      margin-right: .75rem;
+      font-family: sans-serif;
     }
 
     .checker-radio label {
-      font-size: 0;
-      height: 14px;
-      width: 14px;
-      border: 2px solid #000;
-      border-radius: 7px;
+      height: 18px;
+      width: 18px;
+      border: 2px solid #0074D9;
+      border-radius: 50%;
       display: inline-block;
     }
+
     .checker-checkbox label {
-      font-size: 0;
-      height: 14px;
-      width: 14px;
-      border: 2px solid #000;
+      height: 18px;
+      width: 18px;
+      border: 2px solid #0074D9;
       border-radius: 2px;
       display: inline-block;
     }
 
-    input[type=radio]:checked ~ label,
-    input[type=checkbox]:checked ~ label {
-      background-color: #F00;
+    .checker-switch label {
+      width: 70px;
+      height: 25px;
+      border: 2px solid #0074D9;
+      border-radius: 20px;
     }
+
+    .checker-radio input[type=radio] ~ label:after {
+      content: '';
+      background-color: rgba(0,116,217,0);
+      height: 6px;
+      width: 6px;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      transition: ease-in-out .15s all;
+    }
+
+    .checker-radio input[type=radio]:checked ~ label:after {
+      background-color: rgba(0,116,217,1);
+      height: 8px;
+      width: 8px;
+    }
+
+    .checker-checkbox input[type=checkbox] ~ label:after {
+      content: '';
+      background-color: rgba(0,116,217,0);
+      height: 6px;
+      width: 6px;
+      border-radius: 1px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      transition: ease-in-out .15s all;
+    }
+
+    .checker-checkbox input[type=checkbox]:checked ~ label:after {
+      background-color: rgba(0,116,217,1);
+      height: 8px;
+      width: 8px;
+    }
+
+    .checker-switch input[type=checkbox] ~ label:after {
+      content: '';
+      position: absolute;
+      transition: ease-in-out .15s all;
+      height: 15px;
+      width: 15px;
+      border-radius: 50%;
+      background-color: #0074D9;
+      top: 50%;
+      transform: translateY(-50%);
+      margin-left: 3px;
+      transition: .25s ease-in-out all;
+    }
+
+    .checker-switch input[type=checkbox]:checked ~ label:after {
+      margin-left: calc(100% - 18px);
+    }
+
+
+
   </style>
   <script>
     var Checker = Checker || {};
@@ -52,17 +142,40 @@
       var els = document.querySelectorAll('[data-checker]');
 
       els.forEach(function(el, index) {
+        /* Get options from JSON */
         var opts = JSON.parse(el.dataset.checker);
         var checkbox = document.createElement("input");
         var labelEl = document.createElement("label");
         var label = opts.label || opts.name || 'checker'+index;
         var checkboxContainer = document.createElement("div");
+        var pseudoLabel = document.createElement("span");
 
+        //set up style
         checkboxContainer.classList.add("checker");
+        pseudoLabel.classList.add("checker-label");
 
-        opts.type === "radio" ?  checkboxContainer.classList.add("checker-radio") :  checkboxContainer.classList.add("checker-checkbox");
+        //decide on styling
+        if(opts.type === "radio") {
+          checkboxContainer.classList.add("checker-radio");
+          checkbox.setAttribute("type", "radio");
+        }
 
-        checkbox.setAttribute("type", opts.type);
+        else if(opts.type === "checkbox" || opts.type === "switch") {
+
+          checkbox.setAttribute("type", "checkbox");
+
+          if(opts.type === "checkbox") {
+            checkboxContainer.classList.add("checker-checkbox")
+          }
+
+          else {
+            checkboxContainer.classList.add("checker-switch");
+          }
+
+        }
+        //create text label
+        pseudoLabel.innerHTML = label;
+
         checkbox.setAttribute("name", opts.name);
         checkbox.setAttribute("id", "checker-"+index);
         labelEl.innerHTML = label;
@@ -70,7 +183,8 @@
         el.parentNode.replaceChild(checkboxContainer, el);
         checkboxContainer.append(labelEl);
         checkboxContainer.insertBefore(checkbox, labelEl);
-        console.log(opts);
+        checkboxContainer.insertBefore(pseudoLabel, labelEl);
+        // console.log(opts);
       });
 
     }
@@ -83,8 +197,11 @@
 </head>
 <body>
   <div class="container">
-    <span data-checker='{ "type": "radio", "name": "test"}'></span>
-    <span data-checker='{ "type": "checkbox", "label":"checkbox", "name": "test-again"}'></span>
+    <span data-checker='{ "type": "radio", "name": "radio", "label": "Radio Button"}'></span>
+    <span data-checker='{ "type": "radio", "name": "radio", "label": "Radio Button 1"}'></span>
+    <span data-checker='{ "type": "radio", "name": "radio", "label": "Radio Button 2"}'></span>
+    <span data-checker='{ "type": "checkbox", "name": "test", "label": "Checkbox" }'></span>
+    <span data-checker='{ "type": "switch", "name": "test", "label": "On / Off" }'></span>
   </div>
 </body>
 </html>
