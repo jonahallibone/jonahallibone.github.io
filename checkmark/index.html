@@ -1,281 +1,286 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <style>
+    <style>
+        /*Global styling */
 
-    /*Global styling */
-
-    html,body {
-      width: 100%;
-      height: 100%;
-      margin: 0 auto;
-    }
-
-
-    input[type=radio],input[type="checkbox"],input[type="submit"] {
-      display: none;
-    }
-
-    .container {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-    }
-
-    /* Styling for inputs */
-
-    .checker {
-      margin: .25rem;
-      display: flex;
-      align-items: center;
-    }
-
-    /*Styled element */
-    .checker label {
-      font-size: 0;
-      box-sizing: border-box;
-      position: relative;
-    }
-
-
-    /* Actual label shown */
-    .checker-label {
-      margin-right: .75rem;
-      font-family: sans-serif;
-    }
-
-    .checker-label-right {
-      margin-left: .75rem;
-      font-family: sans-serif;
-    }
-
-    .checker-radio label {
-      height: 18px;
-      width: 18px;
-      border: 2px solid #0074D9;
-      border-radius: 50%;
-      display: inline-block;
-    }
-
-    .checker-checkbox label {
-      height: 18px;
-      width: 18px;
-      border: 2px solid #0074D9;
-      border-radius: 2px;
-      display: inline-block;
-    }
-
-    .checker-switch label {
-      width: 50px;
-      height: 25px;
-      border: 2px solid #0074D9;
-      border-radius: 20px;
-      background-color: #DDD;
-      box-shadow: inset 0 0 0 2px #FFF;
-    }
-
-    .checker-submit label {
-      padding: .5rem 2rem;
-      background-color: #0074D9;
-      border-radius: 2px;
-      color: #FFF;
-      font-size: 16px;
-      font-family: sans-serif;
-      box-shadow: 0 2px 1px 0px rgba(0, 0, 0, 0.2);
-    }
-
-    .checker-radio input[type=radio] ~ label:after {
-      content: '';
-      background-color: rgba(0,116,217,0);
-      height: 6px;
-      width: 6px;
-      border-radius: 50%;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%,-50%);
-      transition: ease-in-out .15s all;
-    }
-
-    .checker-radio input[type=radio]:checked ~ label:after {
-      background-color: rgba(0,116,217,1);
-      height: 8px;
-      width: 8px;
-    }
-
-    .checker-checkbox input[type=checkbox] ~ label:after {
-      content: '';
-      background-color: rgba(0,116,217,0);
-      height: 6px;
-      width: 6px;
-      border-radius: 1px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%,-50%);
-      transition: ease-in-out .15s all;
-    }
-
-    .checker-checkbox input[type=checkbox]:checked ~ label:after {
-      background-color: rgba(0,116,217,1);
-      height: 8px;
-      width: 8px;
-    }
-
-    .checker-switch input[type=checkbox] ~ label:after {
-      content: '';
-      position: absolute;
-      transition: ease-in-out .15s all;
-      height: 13px;
-      width: 13px;
-      border-radius: 50%;
-      background-color: #FFF;
-      box-shadow: 0 0  2px 1px rgba(0, 0, 0, 0.1);
-      top: 50%;
-      transform: translateY(-50%);
-      margin-left: 4px;
-      transition: .25s ease-in-out all;
-    }
-
-    .checker-switch input[type=checkbox] ~ label:before {
-      content: '';
-      position: absolute;
-      height: calc(100% - 4px);
-      width: calc(100% - 4px);
-      left: 2px;
-      top: 2px;
-      border-radius: 8px;
-      box-shadow: inset 0 0 3px 0 #DDD;
-      transition: .25s ease-in-out all;
-    }
-
-    .checker-switch input[type=checkbox]:checked ~ label:after {
-      transform: translate(190%, -50%);
-    }
-    .checker-switch input[type=checkbox]:checked ~ label:before {
-      box-shadow: inset 0 0 3px 9px #4CD964;
-    }
-
-
-
-  </style>
-  <script>
-    var Checker = Checker || {};
-
-    Checker.set = function(el) {
-
-      if(typeof el === undefined  || typeof el === 'undefined' || el.length < 1) {
-        console.error('Checker error: ' + el + ' is not a valid');
-        return ;
-      }
-
-      var els = document.querySelectorAll('[data-checker]');
-
-      els.forEach(function(el, index) {
-        /* Get options from JSON */
-        var opts = JSON.parse(el.dataset.checker);
-        var checkbox = document.createElement("input");
-        var labelEl = document.createElement("label");
-        var label = opts.label || opts.name || 'checker'+index;
-        var checkboxContainer = document.createElement("div");
-        var pseudoLabel = document.createElement("span");
-
-        //set up style
-        checkboxContainer.classList.add("checker");
-        pseudoLabel.classList.add("checker-label");
-
-        //decide on styling
-        if(opts.type === "radio") {
-          checkboxContainer.classList.add("checker-radio");
-          checkbox.setAttribute("type", "radio");
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0 auto;
         }
 
-        if(opts.type === "submit") {
-          checkboxContainer.classList.add("checker-submit");
-          checkbox.setAttribute("type", "submit");
+        input[type=radio],
+        input[type="checkbox"],
+        input[type="submit"] {
+            display: none;
         }
 
-        else if(opts.type === "checkbox" || opts.type === "switch") {
+        .container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        /* Styling for inputs */
 
-          checkbox.setAttribute("type", "checkbox");
+        .checker {
+            margin: .25rem;
+            display: flex;
+            align-items: center;
+        }
+        /*Styled element */
 
-          if(opts.type === "checkbox") {
-            checkboxContainer.classList.add("checker-checkbox")
-          }
+        .checker label {
+            font-size: 0;
+            box-sizing: border-box;
+            position: relative;
+        }
+        /* Actual label shown */
 
-          else {
-            checkboxContainer.classList.add("checker-switch");
-          }
+        .checker-label {
+            margin-right: .75rem;
+            font-family: sans-serif;
+        }
+
+        .checker-label-right {
+            margin-left: .75rem;
+            font-family: sans-serif;
+        }
+
+        .checker-radio label {
+            height: 18px;
+            width: 18px;
+            border: 2px solid #0074D9;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .checker-checkbox label {
+            height: 18px;
+            width: 18px;
+            border: 2px solid #0074D9;
+            border-radius: 2px;
+            display: inline-block;
+        }
+
+        .checker-switch label {
+            width: 50px;
+            height: 25px;
+            border: 2px solid #0074D9;
+            border-radius: 20px;
+            background-color: #DDD;
+            box-shadow: inset 0 0 0 2px #FFF;
+        }
+
+        .checker-submit label {
+            padding: .5rem 2rem;
+            background-color: #0074D9;
+            border-radius: 2px;
+            color: #FFF;
+            font-size: 16px;
+            font-family: sans-serif;
+            box-shadow: 0 2px 1px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        .checker-radio input[type=radio]~label:after {
+            content: '';
+            background-color: rgba(0, 116, 217, 0);
+            height: 6px;
+            width: 6px;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: ease-in-out .15s all;
+        }
+
+        .checker-radio input[type=radio]:checked~label:after {
+            background-color: rgba(0, 116, 217, 1);
+            height: 8px;
+            width: 8px;
+        }
+
+        .checker-checkbox input[type=checkbox]~label:after {
+            content: '';
+            background-color: rgba(0, 116, 217, 0);
+            height: 6px;
+            width: 6px;
+            border-radius: 1px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: ease-in-out .15s all;
+        }
+
+        .checker-checkbox input[type=checkbox]:checked~label:after {
+            background-color: rgba(0, 116, 217, 1);
+            height: 8px;
+            width: 8px;
+        }
+
+        .checker-switch input[type=checkbox]~label:after {
+            content: '';
+            position: absolute;
+            transition: ease-in-out .15s all;
+            height: 13px;
+            width: 13px;
+            border-radius: 50%;
+            background-color: #FFF;
+            box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.1);
+            top: 50%;
+            transform: translateY(-50%);
+            margin-left: 4px;
+            transition: .25s ease-in-out all;
+        }
+
+        .checker-switch input[type=checkbox]~label:before {
+            content: '';
+            position: absolute;
+            height: calc(100% - 4px);
+            width: calc(100% - 4px);
+            left: 2px;
+            top: 2px;
+            border-radius: 8px;
+            box-shadow: inset 0 0 3px 0 #DDD;
+            transition: .25s ease-in-out all;
+        }
+
+        .checker-switch input[type=checkbox]:checked~label:after {
+            transform: translate(190%, -50%);
+        }
+
+        .checker-switch input[type=checkbox]:checked~label:before {
+            box-shadow: inset 0 0 3px 9px #4CD964;
+        }
+
+        label .row-of-icons {
+            -webkit-user-select: none;
+            /* Chrome all / Safari all */
+            -moz-user-select: none;
+            /* Firefox all */
+            -ms-user-select: none;
+            /* IE 10+ */
+            user-select: none;
+            /* Likely future */
+        }
+    </style>
+    <script>
+        var Checker = Checker || {};
+
+        Checker.set = function(el) {
+
+            if (typeof el === undefined || typeof el === 'undefined' || el.length < 1) {
+                console.error('Checker error: ' + el + ' is not a valid');
+                return;
+            }
+
+            var els = document.querySelectorAll('[data-checker]');
+
+            els.forEach(function(el, index) {
+                /* Get options from JSON */
+                var opts = JSON.parse(el.dataset.checker);
+                var checkbox = document.createElement("input");
+                var labelEl = document.createElement("label");
+                var label = opts.label || opts.name || 'checker' + index;
+                var checkboxContainer = document.createElement("div");
+                var pseudoLabel = document.createElement("span");
+
+                //set up style
+                checkboxContainer.classList.add("checker");
+                pseudoLabel.classList.add("checker-label");
+
+                //decide on styling
+                if (opts.type === "radio") {
+                    checkboxContainer.classList.add("checker-radio");
+                    checkbox.setAttribute("type", "radio");
+                }
+
+                if (opts.type === "submit") {
+                    checkboxContainer.classList.add("checker-submit");
+                    checkbox.setAttribute("type", "submit");
+                } else if (opts.type === "checkbox" || opts.type === "switch") {
+
+                    checkbox.setAttribute("type", "checkbox");
+
+                    if (opts.type === "checkbox") {
+                        checkboxContainer.classList.add("checker-checkbox")
+                    } else {
+                        checkboxContainer.classList.add("checker-switch");
+                    }
+
+                }
+
+                checkbox.setAttribute("name", opts.name);
+                checkbox.setAttribute("id", "checker-" + index);
+                labelEl.innerHTML = label;
+
+
+                labelEl.setAttribute("for", "checker-" + index);
+                el.parentNode.replaceChild(checkboxContainer, el);
+
+
+                if (label.indexOf("/") > -1) {
+                    opts.leftLabel = document.createElement("span");
+                    opts.leftLabel.classList.add("checker-label-right");
+                    var sideLabel = label.split("/");
+                    var labelRight = sideLabel[1];
+                    console.log(labelRight);
+                    opts.leftLabel.innerHTML = labelRight;
+                    label = sideLabel[0];
+                }
+
+                //create text label
+                pseudoLabel.innerHTML = label;
+                if (opts.type !== "switch") {
+                    checkboxContainer.append(labelEl);
+                    checkboxContainer.insertBefore(checkbox, labelEl);
+                } else {
+                    checkboxContainer.append(opts.leftLabel);
+                    checkboxContainer.insertBefore(labelEl, opts.leftLabel);
+                    checkboxContainer.insertBefore(checkbox, labelEl);
+                }
+
+                if (opts.type !== "submit") {
+                    checkboxContainer.insertBefore(pseudoLabel, labelEl);
+                }
+
+                // console.log(opts);
+            });
 
         }
 
-        checkbox.setAttribute("name", opts.name);
-        checkbox.setAttribute("id", "checker-"+index);
-        labelEl.innerHTML = label;
-
-
-        labelEl.setAttribute("for", "checker-"+index);
-        el.parentNode.replaceChild(checkboxContainer, el);
-
-
-        if(label.indexOf("/") > -1) {
-          opts.leftLabel = document.createElement("span");
-          opts.leftLabel.classList.add("checker-label-right");
-          var sideLabel = label.split("/");
-          var labelRight = sideLabel[1];
-          console.log(labelRight);
-          opts.leftLabel.innerHTML = labelRight;
-          label = sideLabel[0];
+        window.onload = function() {
+            Checker.set('data-checker');
         }
-
-        //create text label
-        pseudoLabel.innerHTML = label;
-        if(opts.type !== "switch") {
-          checkboxContainer.append(labelEl);
-          checkboxContainer.insertBefore(checkbox, labelEl);
-        }
-        else {
-          checkboxContainer.append(opts.leftLabel);
-          checkboxContainer.insertBefore(labelEl, opts.leftLabel);
-          checkboxContainer.insertBefore(checkbox, labelEl);
-        }
-
-        if(opts.type !== "submit") {
-          checkboxContainer.insertBefore(pseudoLabel, labelEl);
-        }
-
-        // console.log(opts);
-      });
-
-    }
-
-    window.onload = function() {
-      Checker.set('data-checker');
-    }
-
-  </script>
+    </script>
 </head>
-<body>
-  <div class="container">
-    <span data-checker='{ "type": "radio", "name": "radio", "label": "Radio Button 1"}'></span>
-    <span data-checker='{ "type": "radio", "name": "radio", "label": "Radio Button 2"}'></span>
-    <span data-checker='{ "type": "radio", "name": "radio", "label": "Radio Button 3"}'></span>
-    <span data-checker='{ "type": "checkbox", "name": "test", "label": "Checkbox" }'></span>
-    <span data-checker='{ "type": "switch", "name": "test", "label": "Off / On" }'></span>
-    <span data-checker='{ "type": "submit", "name": "nice-button", "label": "Submit" }'></span>
-    <!-- TO DO -->
 
-    <!--
+<body>
+    <div class="container">
+        <span data-checker='{ "type": "radio", "name": "radio", "label": "Radio Button 1"}'></span>
+        <span data-checker='{ "type": "radio", "name": "radio", "label": "Radio Button 2"}'></span>
+        <span data-checker='{ "type": "radio", "name": "radio", "label": "Radio Button 3"}'></span>
+        <span data-checker='{ "type": "checkbox", "name": "test", "label": "Checkbox" }'></span>
+        <span data-checker='{ "type": "switch", "name": "test", "label": "Off / On" }'></span>
+        <span data-checker='{ "type": "submit", "name": "nice-button", "label": "Submit" }'></span>
+        <!-- TO DO -->
+
+        <!--
     Input box that reduces list as you type
     <span data-checker='{ "type": "input", "name": "input", "label": "Listed input", "list": "[]" }'></span>
 
     Select dropdown that reduces list as you type
     <span data-checker='{ "type": "select", "name": "list", "label": "Dropdown", "list": "[]" }'></span>
     -->
-  </div>
+    </div>
 </body>
+
 </html>
