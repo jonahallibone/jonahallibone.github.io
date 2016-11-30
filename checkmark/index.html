@@ -12,7 +12,7 @@
     }
 
 
-    input[type=radio],input[type="checkbox"] {
+    input[type=radio],input[type="checkbox"],input[type="submit"] {
       display: none;
     }
 
@@ -41,9 +41,15 @@
       position: relative;
     }
 
+
     /* Actual label shown */
     .checker-label {
       margin-right: .75rem;
+      font-family: sans-serif;
+    }
+
+    .checker-label-right {
+      margin-left: .75rem;
       font-family: sans-serif;
     }
 
@@ -68,6 +74,16 @@
       height: 25px;
       border: 2px solid #0074D9;
       border-radius: 20px;
+    }
+
+    .checker-submit label {
+      padding: .5rem 2rem;
+      background-color: #0074D9;
+      border-radius: 2px;
+      color: #FFF;
+      font-size: 16px;
+      font-family: sans-serif;
+      box-shadow: 0 2px 1px 0px rgba(0, 0, 0, 0.2);
     }
 
     .checker-radio input[type=radio] ~ label:after {
@@ -136,7 +152,7 @@
     }
 
     .checker-switch input[type=checkbox]:checked ~ label:after {
-      margin-left: calc(100% - 17px);
+      transform: translate(190%, -50%);
     }
     .checker-switch input[type=checkbox]:checked ~ label:before {
       background-color: #4CD964;
@@ -176,6 +192,11 @@
           checkbox.setAttribute("type", "radio");
         }
 
+        if(opts.type === "submit") {
+          checkboxContainer.classList.add("checker-submit");
+          checkbox.setAttribute("type", "submit");
+        }
+
         else if(opts.type === "checkbox" || opts.type === "switch") {
 
           checkbox.setAttribute("type", "checkbox");
@@ -189,17 +210,42 @@
           }
 
         }
-        //create text label
-        pseudoLabel.innerHTML = label;
 
         checkbox.setAttribute("name", opts.name);
         checkbox.setAttribute("id", "checker-"+index);
         labelEl.innerHTML = label;
+
+
         labelEl.setAttribute("for", "checker-"+index);
         el.parentNode.replaceChild(checkboxContainer, el);
-        checkboxContainer.append(labelEl);
-        checkboxContainer.insertBefore(checkbox, labelEl);
-        checkboxContainer.insertBefore(pseudoLabel, labelEl);
+
+
+        if(label.indexOf("/") > -1) {
+          opts.leftLabel = document.createElement("span");
+          opts.leftLabel.classList.add("checker-label-right");
+          var sideLabel = label.split("/");
+          var labelRight = sideLabel[1];
+          console.log(labelRight);
+          opts.leftLabel.innerHTML = labelRight;
+          label = sideLabel[0];
+        }
+
+        //create text label
+        pseudoLabel.innerHTML = label;
+        if(opts.type !== "switch") {
+          checkboxContainer.append(labelEl);
+          checkboxContainer.insertBefore(checkbox, labelEl);
+        }
+        else {
+          checkboxContainer.append(opts.leftLabel);
+          checkboxContainer.insertBefore(labelEl, opts.leftLabel);
+          checkboxContainer.insertBefore(checkbox, labelEl);
+        }
+
+        if(opts.type !== "submit") {
+          checkboxContainer.insertBefore(pseudoLabel, labelEl);
+        }
+
         // console.log(opts);
       });
 
@@ -213,11 +259,21 @@
 </head>
 <body>
   <div class="container">
-    <span data-checker='{ "type": "radio", "name": "radio", "label": "Radio Button"}'></span>
     <span data-checker='{ "type": "radio", "name": "radio", "label": "Radio Button 1"}'></span>
     <span data-checker='{ "type": "radio", "name": "radio", "label": "Radio Button 2"}'></span>
+    <span data-checker='{ "type": "radio", "name": "radio", "label": "Radio Button 3"}'></span>
     <span data-checker='{ "type": "checkbox", "name": "test", "label": "Checkbox" }'></span>
     <span data-checker='{ "type": "switch", "name": "test", "label": "Off / On" }'></span>
+    <span data-checker='{ "type": "submit", "name": "nice-button", "label": "Submit" }'></span>
+    <!-- TO DO -->
+
+    <!--
+    Input box that reduces list as you type
+    <span data-checker='{ "type": "input", "name": "input", "label": "Listed input", "list": "[]" }'></span>
+
+    Select dropdown that reduces list as you type
+    <span data-checker='{ "type": "select", "name": "list", "label": "Dropdown", "list": "[]" }'></span>
+    -->
   </div>
 </body>
 </html>
