@@ -178,7 +178,7 @@
         return ;
       }
 
-      var els = document.querySelectorAll('[data-checker]');
+      var els = document.querySelectorAll(el);
 
       els.forEach(function(el, index) {
         /* Get options from JSON */
@@ -259,7 +259,7 @@
     }
 
     window.onload = function() {
-      Checker.set('data-checker');
+      Checker.set('[data-checker]');
     }
 
   </script>
