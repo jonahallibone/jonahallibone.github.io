@@ -248,7 +248,7 @@
 
       var els = document.querySelectorAll(el);
 
-      els.forEach(function(el, index) {
+      Array.from(els).forEach(function(el, index) {
         /* Get options from JSON */
         var opts = JSON.parse(el.dataset.checker);
         var checkbox = document.createElement("input");
@@ -274,6 +274,8 @@
         } else if (opts.type === "switch") {
             checkbox.setAttribute("type", "checkbox");
             checkboxContainer.classList.add("checker-switch");
+        } else if (opts.type === "input") {
+
         }
 
         checkbox.setAttribute("name", opts.name);
@@ -298,11 +300,11 @@
         //create text label
         pseudoLabel.innerHTML = label;
         if(opts.type !== "switch") {
-          checkboxContainer.append(labelEl);
+          checkboxContainer.appendChild(labelEl);
           checkboxContainer.insertBefore(checkbox, labelEl);
         }
         else {
-          checkboxContainer.append(opts.leftLabel);
+          checkboxContainer.appendChild(opts.leftLabel);
           checkboxContainer.insertBefore(labelEl, opts.leftLabel);
           checkboxContainer.insertBefore(checkbox, labelEl);
         }
