@@ -165,7 +165,11 @@
       box-shadow: inset 0 0 3px 9px #4CD964;
     }
 
-    #dropdownInput {
+    .dropdownContainer {
+        position: relative;
+    }
+
+    .dropdownContainer input {
       margin-top: .5em;
       color: white;
       background-color: #0074D9;
@@ -174,9 +178,10 @@
       height: 2rem;
       text-align: center;
       border: 2px solid #7FB7E9;
+      outline: none;
     }
 
-    #dropdown {
+    .dropdownContainer ul {
       list-style-type: none;
       margin: 0;
       padding: 0;
@@ -186,8 +191,10 @@
       border-top: 0;
       font-size: 1.1rem;
       font-family: sans-serif;
+      position: absolute;
     }
-    #dropdown li {
+
+    .dropdownContainer li {
       padding: .3rem 0;
       color: white;
       background-color: #0074D9;
@@ -206,28 +213,30 @@
     Checker.set = function(el) {
 
         var testData = ['Apple','Orange','Clementine','Lime','Lemon','Pineapple','Mango','Pear'];
-        var filteredArr = [];
-        var input = document.getElementById('dropdownInput');
-        input.addEventListener('keyup',function(){
-            console.log('update');
-            filteredArr = testData.filter(contains);
-            var myNode = document.getElementById("dropdown");
-            while (myNode.firstChild) {
-                myNode.removeChild(myNode.firstChild);
-            }
-            if (input.value !== '')
-            for (var i = 0; i < filteredArr.length; i++) {
-                var node = document.createElement("LI");                 // Create a <li> node
-                var textnode = document.createTextNode(filteredArr[i]);         // Create a text node
-                node.appendChild(textnode);                              // Append the text to <li>
-                document.getElementById("dropdown").appendChild(node);     // Append <li> to <ul> with id="myList"
-            }
+        var inputFields = document.querySelectorAll('.dropdownInput');
+        inputFields.forEach(function(el, i){
+            el.addEventListener('keyup',function(){
+                var filteredArr = [];
+                for (var j = 0; j < testData.length; j++) {
+                    if (testData[j].toLowerCase().indexOf(this.value.toLowerCase()) == 0) {
+                        filteredArr.push(testData[j]);
+                    }
+                }
+                var myNode = this.nextElementSibling;
+                while (myNode.firstChild) {
+                    myNode.removeChild(myNode.firstChild);
+                }
+                if (this.value !== '') {
+                    for (var i = 0; i < filteredArr.length; i++) {
+                        var liNode = document.createElement("LI");                 // Create a <li> node
+                        var textNode = document.createTextNode(filteredArr[i]);         // Create a text node
+                        liNode.appendChild(textNode);                              // Append the text to <li>
+                        myNode.appendChild(liNode);     // Append <li> to <ul> with id="myList"
+                    }
+                }
+            });
+        });
 
-            }
-        );
-        function contains(value) {
-            return value.toLowerCase().indexOf(input.value.toLowerCase()) !== -1
-        }
 
 
 
@@ -333,9 +342,10 @@
     <span data-checker='{ "type": "select", "name": "list", "label": "Dropdown", "list": "[]" }'></span>
     -->
 
-
-    <input type="text" id="dropdownInput" />
-    <ul id="dropdown"></ul>
+<div class="dropdownContainer">
+    <input type="text" class="dropdownInput" />
+    <ul class="dropdownContent"></ul>
+</div>
 
   </div>
 </body>
