@@ -92,6 +92,10 @@
       box-shadow: 0 2px 1px 0px rgba(0, 0, 0, 0.2);
     }
 
+    .checker-input label {
+      display: none;
+    }
+
     .checker-radio input[type=radio] ~ label:after {
       content: '';
       background-color: rgba(0,116,217,0);
@@ -163,6 +167,12 @@
 
     .checker-switch input[type=checkbox]:checked ~ label:before {
       box-shadow: inset 0 0 3px 9px #4CD964;
+    }
+
+    .checker-input input[type=text] {
+      border: 2px solid #0074D9;
+      border-radius: 2px;
+      box-shadow: 0 2px 1px 0px rgba(0, 0, 0, 0.2);
     }
 
     .dropdownContainer {
@@ -272,10 +282,11 @@
           checkbox.setAttribute("type", "checkbox");
           checkboxContainer.classList.add("checker-checkbox");
         } else if (opts.type === "switch") {
-            checkbox.setAttribute("type", "checkbox");
-            checkboxContainer.classList.add("checker-switch");
+          checkbox.setAttribute("type", "checkbox");
+          checkboxContainer.classList.add("checker-switch");
         } else if (opts.type === "input") {
-
+          checkbox.setAttribute("type","text");
+          checkboxContainer.classList.add("checker-input");
         }
 
         checkbox.setAttribute("name", opts.name);
@@ -302,6 +313,11 @@
         if(opts.type !== "switch") {
           checkboxContainer.appendChild(labelEl);
           checkboxContainer.insertBefore(checkbox, labelEl);
+
+          if(opts.type !== "submit" && opts.type !== "input") {
+            checkboxContainer.insertBefore(pseudoLabel, labelEl);
+          }
+
         }
         else {
           checkboxContainer.appendChild(opts.leftLabel);
@@ -309,9 +325,6 @@
           checkboxContainer.insertBefore(checkbox, labelEl);
         }
 
-        if(opts.type !== "submit") {
-          checkboxContainer.insertBefore(pseudoLabel, labelEl);
-        }
 
         // console.log(opts);
       });
