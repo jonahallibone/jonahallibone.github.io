@@ -39,6 +39,10 @@
       font-size: 0;
       box-sizing: border-box;
       position: relative;
+      -webkit-user-select: none;  /* Chrome all / Safari all */
+      -moz-user-select: none;     /* Firefox all */
+      -ms-user-select: none;      /* IE 10+ */
+      user-select: none;          /* Likely future */
     }
 
 
@@ -74,7 +78,7 @@
       height: 25px;
       border: 2px solid #0074D9;
       border-radius: 20px;
-      background-color: #DDD;
+      background-color: #4CD964;
       box-shadow: inset 0 0 0 2px #FFF;
     }
 
@@ -156,22 +160,77 @@
     .checker-switch input[type=checkbox]:checked ~ label:after {
       transform: translate(190%, -50%);
     }
+
     .checker-switch input[type=checkbox]:checked ~ label:before {
-      box-shadow: inset 0 0 3px 9px #4CD964;
-    }
-    label .row-of-icons {
-      -webkit-user-select: none;  /* Chrome all / Safari all */
-      -moz-user-select: none;     /* Firefox all */
-      -ms-user-select: none;      /* IE 10+ */
-      user-select: none;          /* Likely future */
+      box-shadow: inset 0 0 3px 9px #DDD;
     }
 
+    #dropdownInput {
+        margin-top: .5em;
+        color: white;
+background-color: #0074D9;
+width: 12rem;
+font-size: 1.2rem;
+height: 2rem;
+text-align: center;
+border: 2px solid #7FB7E9;
+    }
+
+    #dropdown {
+        list-style-type: none;
+margin: 0;
+padding: 0;
+text-align: center;
+width: 12rem;
+border: 2px solid #7FB7E9;
+border-top: 0;
+font-size: 1.1rem;
+font-family: sans-serif;
+    }
+    #dropdown li {
+        padding: .3rem 0;
+        color: white;
+        background-color: #0074D9;
+        border-bottom: 1px solid #7FB7E9;
+    }
 
   </style>
   <script>
+
+
+
+
+
     var Checker = Checker || {};
 
     Checker.set = function(el) {
+
+        var testData = ['Apple','Orange','Clementine','Lime','Lemon','Pineapple','Mango','Pear'];
+        var filteredArr = [];
+        var input = document.getElementById('dropdownInput');
+        input.addEventListener('keyup',function(){
+            console.log('update');
+            filteredArr = testData.filter(contains);
+            var myNode = document.getElementById("dropdown");
+            while (myNode.firstChild) {
+                myNode.removeChild(myNode.firstChild);
+            }
+            if (input.value !== '')
+            for (var i = 0; i < filteredArr.length; i++) {
+                var node = document.createElement("LI");                 // Create a <li> node
+                var textnode = document.createTextNode(filteredArr[i]);         // Create a text node
+                node.appendChild(textnode);                              // Append the text to <li>
+                document.getElementById("dropdown").appendChild(node);     // Append <li> to <ul> with id="myList"
+            }
+
+            }
+        );
+        function contains(value) {
+            return value.toLowerCase().indexOf(input.value.toLowerCase()) !== -1
+        }
+
+
+
 
       if(typeof el === undefined  || typeof el === 'undefined' || el.length < 1) {
         console.error('Checker error: ' + el + ' is not a valid');
@@ -262,6 +321,7 @@
       Checker.set('[data-checker]');
     }
 
+
   </script>
 </head>
 <body>
@@ -276,11 +336,17 @@
 
     <!--
     Input box that reduces list as you type
-    <span data-checker='{ "type": "input", "name": "input", "label": "Listed input", "list": "[]" }'></span>
-
+-->
+     <span data-checker='{ "type": "input", "name": "input", "label": "Listed input", "list": ["Apple","Orange","Clementine","Lime","Lemon","Pineapple","Mango","Pear"] }'></span>
+<!--
     Select dropdown that reduces list as you type
     <span data-checker='{ "type": "select", "name": "list", "label": "Dropdown", "list": "[]" }'></span>
     -->
+
+
+    <input type="text" id="dropdownInput" />
+    <ul id="dropdown"></ul>
+
   </div>
 </body>
 </html>
