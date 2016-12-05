@@ -1,0 +1,99 @@
+/*Variables*/
+
+$slightshadow: rgba(0,0,0,0.1);
+$padding: 1rem .5rem;
+$green: #39CCCC;
+$blue: #0074D9;
+$lightblue: #7FDBFF;
+$white: #FFF;
+
+@mixin flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+
+/*styles*/
+
+
+
+/*****
+Add UL -> flexbox
+put logo outside nav, but in header
+==========================
+flex-wrap: nowrap;
+==========================
+*****/
+html,body {
+  min-height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  font-family: 'Avenir', sans-serif;
+}
+
+a {
+  cursor: pointer;
+}
+
+nav {
+  @include flex-row;
+  box-shadow: 0 0 7px 1px $slightshadow;
+  box-sizing: border-box;
+
+  a {
+    padding: $padding;
+    text-decoration: none;
+    margin-right: .5rem;
+    margin-left: .5rem;
+    text-align: center;
+    flex: 1;
+    box-sizing: border-box;
+  }
+
+  .logo {
+    width: 50px;
+    background-color: rgba(0,0,0,0.3);
+    top: 0;
+    left: 0;
+    height: 100%;
+    font-weight: bold;
+  }
+
+  .logo ~ a:nth(1) {
+    margin-left: 50px;
+  }
+
+  .left {
+    margin-right: auto;
+    text-align: right;
+  }
+
+  .right {
+    @include flex-row;
+    margin-left: auto;
+    text-align: left;
+  }
+}
+
+nav.green-bg {
+  background-color: $green;
+  color: $white;
+
+  a {
+    color: #FFF;
+  }
+}
+
+nav.fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.hero {
+
+}
