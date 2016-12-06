@@ -1,11 +1,14 @@
 /*Variables*/
 
 $slightshadow: rgba(0,0,0,0.1);
+$darken: rgba(0,0,0,0.2);
+$lighten: rgba(255,255,255,0.8);
 $padding: 1rem 1rem;
 $green: #39CCCC;
-$blue: #0074D9;
+$blue: #4A89DC;
 $lightblue: #7FDBFF;
 $white: #FFF;
+$menu-border-width: 3px;
 
 @mixin flex-row {
   display: flex;
@@ -21,6 +24,11 @@ $white: #FFF;
   justify-content: space-around;
 }
 
+/*** grid ***/
+
+
+
+/** end grid **/
 
 /*styles*/
 
@@ -40,14 +48,51 @@ html,body {
   font-family: 'Avenir', sans-serif;
 }
 
+.container {
+  @include flex-row;
+  flex: 1;
+}
+
 a {
   cursor: pointer;
 }
 
 nav {
   @include flex-row;
+  justify-content: space-around;
   box-shadow: 0 0 7px 1px $slightshadow;
   box-sizing: border-box;
+
+  .hamburger {
+    @include flex-column-around;
+    box-sizing: border-box;
+    padding: 1.3rem;
+    width: 65px;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .hamburger:after {
+    content: '';
+    position: absolute;
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: -1;
+  }
+
+  .hamburger:active:after {
+    background-color: $darken;
+  }
+
+  .hamburger .condiment {
+    width: 100%;
+    height: 2px;
+    background-color: white;
+  }
 
   ul {
     list-style: none;
@@ -64,20 +109,24 @@ nav {
     white-space: nowrap;
   }
 
-  a {
+  a, .menu-item {
     @include flex-column-around;
-    padding: $padding;
+    padding: 1rem 1rem calc(1rem - #{$menu-border-width}) 1rem;
     text-decoration: none;
-    border-bottom: 3px solid rgba(0,0,0,0);
     transition: .15s ease-in-out all;
+    box-sizing: border-box;
+  }
+
+  a {
+    border-bottom: $menu-border-width solid rgba(0,0,0,0);
   }
 
   a:hover {
-    border-color: rgba(0,0,0,0.3);
+    border-color: $white;
   }
 
   .logo {
-    background-color: rgba(0,0,0,0.3);
+    background-color: $darken;
     font-weight: bold;
     margin-left: 0;
   }
@@ -93,10 +142,43 @@ nav {
     margin-left: auto;
     text-align: left;
   }
+
+
+  .search-container {
+    width: 500px;
+  }
+
+  .search-parent {
+    padding: .5rem;
+    width: 100%;
+  }
+
+  input[type=text].search {
+    background-color: $darken;
+    border: 0;
+    padding: .75rem .5rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #FFF;
+    outline: none;
+    margin: 0;
+    box-sizing: border-box;
+    border-radius: 2px;
+  }
+
 }
 
 nav.green-bg {
   background-color: $green;
+  color: $white;
+
+  a {
+    color: #FFF;
+  }
+}
+
+nav.blue-bg {
+  background-color: $blue;
   color: $white;
 
   a {
@@ -111,6 +193,12 @@ nav.fixed {
   width: 100%;
 }
 
-.hero {
-
+#side {
+  position: fixed;
+  height: 100%;
+  width: 250px;
+  background-color: $white;
+  transform: translateX(-100%);
+  top: 0;
+  left: 0;
 }
