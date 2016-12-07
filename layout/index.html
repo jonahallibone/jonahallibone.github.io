@@ -41,6 +41,17 @@
       </ul>
       </div>
     </nav>
+    <div id="side">
+
+    </div>
   </header>
+
+  <script>
+    var hamburger = document.querySelector('.hamburger');
+    hamburger.addEventListener('click', function() {
+      document.querySelector('#side').classList.toggle("open");
+    })
+  </script>
+
 </body>
 </html>

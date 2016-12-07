@@ -66,7 +66,7 @@ nav {
   .hamburger {
     @include flex-column-around;
     box-sizing: border-box;
-    padding: 1.3rem;
+    padding: 1.4rem;
     width: 65px;
     cursor: pointer;
     position: relative;
@@ -82,6 +82,7 @@ nav {
     left: 50%;
     transform: translate(-50%,-50%);
     z-index: -1;
+    transition: .15s ease-in-out all;
   }
 
   .hamburger:active:after {
@@ -201,4 +202,10 @@ nav.fixed {
   transform: translateX(-100%);
   top: 0;
   left: 0;
+  box-shadow: $slightshadow;
+  transition: .15s ease-in-out all;
+}
+
+#side.open {
+  transform: translateX(0);
 }
