@@ -24,12 +24,19 @@
             if( isScrolledIntoView(el) ) {
                 var distanceBottom = window.innerHeight - el.offsetTop + el.offsetHeight;
                 if(el.offsetHeight > el.getBoundingClientRect.bottom) {
-                    el.style.WebkitTransform = "translateX("+ ((Math.abs(Math.floor(el.offsetHeight - el.getBoundingClientRect().bottom) / el.offsetHeight))) * 100 +"%)";
+                    var position = Math.abs(Math.floor(el.offsetHeight - el.getBoundingClientRect().bottom) / el.offsetHeight) * 100;
+                    if(position <= 100) {
+                        el.style.WebkitTransform = "translateX("+ position + "%)";
+                        console.log('this');
+                    }
                 }
 
-                else el.style.WebkitTransform = "translateX("+ ((Math.abs(Math.floor(el.getBoundingClientRect().bottom - el.offsetHeight) / el.offsetHeight))) * 100 +"%)";
+                else {
+                    if(position <= 100) {
+                        el.style.WebkitTransform = "translateX("+ ((Math.abs(Math.floor(el.getBoundingClientRect().bottom - el.offsetHeight) / el.offsetHeight))) * 100 +"%)";
+                    }
+                }
             }
-            console.log(el.getBoundingClientRect().bottom);
 
             if( isOverBottom(el) ) {
                 el.style.WebkitTransform = "translateX(0%)";
@@ -38,6 +45,7 @@
 
         function isScrolledIntoView(el) {
             var elemTop = el.getBoundingClientRect().top;
+            console.log("Element top: " + elemTop);
             var elemBottom = el.getBoundingClientRect().bottom;
             var isVisible = (elemTop >= 0) && (elemBottom - el.offsetHeight <= window.innerHeight);
 
