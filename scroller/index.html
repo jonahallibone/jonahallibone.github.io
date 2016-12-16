@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Scroller Plugin</title>
+<link rel="stylesheet" href="style.min.css" media="screen" />
+</head>
+<body>
+    <div class="top"></div>
+    <div class="container">
+        <div class="child"></div>
+        <div class="child"></div>
+    </div>
+    <div class="top"></div>
+    <script>
+    window.onload = function() {
+        var cont = document.querySelector(".container");
+        var children = document.querySelectorAll(".container .child");
+        var scrollTimer = null;
+        window.addEventListener("scroll", scrolled);
+
+
+        function scrolled() {
+            var el = children[1];
+            if( isScrolledIntoView(el) ) {
+                var distanceBottom = window.innerHeight - el.offsetTop + el.offsetHeight;
+                if(el.offsetHeight > el.getBoundingClientRect.bottom) {
+                    el.style.WebkitTransform = "translateX("+ ((Math.abs(Math.floor(el.offsetHeight - el.getBoundingClientRect().bottom) / el.offsetHeight))) * 100 +"%)";
+                }
+
+                else el.style.WebkitTransform = "translateX("+ ((Math.abs(Math.floor(el.getBoundingClientRect().bottom - el.offsetHeight) / el.offsetHeight))) * 100 +"%)";
+            }
+            console.log(el.getBoundingClientRect().bottom);
+
+            if( isOverBottom(el) ) {
+                el.style.WebkitTransform = "translateX(0%)";
+            }
+        }
+
+        function isScrolledIntoView(el) {
+            var elemTop = el.getBoundingClientRect().top;
+            var elemBottom = el.getBoundingClientRect().bottom;
+            var isVisible = (elemTop >= 0) && (elemBottom - el.offsetHeight <= window.innerHeight);
+
+            return isVisible;
+        }
+
+        function isOverBottom(el) {
+            return el.getBoundingClientRect().bottom <= window.innerHeight - 200;
+        }
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+html,
+body {
+    margin: 0 auto;
+    padding: 0;
+}
+
+.top {
+    margin-top: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow-x: hidden;
+}
+
+.container .child {
+    width: 50%;
+    min-height: 500px;
+    flex: 1;
+    box-sizing: border-box;
+    border: 5px solid #3bad11;
+}
+.container .child:first-child {
+}
+
+.container .child:last-child {
+    transform: translateX(100%);
+}
