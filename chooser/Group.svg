@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="122px" height="162px" viewBox="0 0 122 162" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(5.000000, 5.000000)">
+            <path d="M3.38205997,16.8813497 L14.1737131,151.467975 L95.5061368,151.467975 L109.449655,16.8813497 C109.449655,16.8813497 78.4358709,19.8699406 55.0496193,19.9001618 C31.6633677,19.9303829 3.38205997,16.8813497 3.38205997,16.8813497 Z" id="Path"></path>
+            <path d="M107.717179,15.4465012 C107.717179,15.4465012 79.4358709,18.7178984 56.0496193,18.7495644 C32.6633677,18.7812304 4.38205997,15.5864214 4.38205997,15.5864214 L4.38205997,15.5864214" id="Path" stroke="#222222" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></path>
+            <polyline id="Path" stroke="#222222" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" points="27.2055906 0.139800985 0.660762863 0.289798845 14.1845129 151.467975 96.8774919 151.467975 111.438476 0.139800985 51.7772802 0.289798845"></polyline>
+        </g>
+    </g>
+</svg>

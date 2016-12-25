@@ -32,9 +32,7 @@
 
                 else {
                     var position = Math.abs(Math.floor(el.getBoundingClientRect().bottom - el.offsetHeight) / el.offsetHeight) * 100;
-                    console.log(position);
-                    if(position <= 100) {
-                        console.log('Less than!');
+                    if(position < 100) {
                         el.style.WebkitTransform = "translateX("+ position +"%)";
                     }
                 }
@@ -49,7 +47,9 @@
             var elemTop = el.getBoundingClientRect().top;
             var elemBottom = el.getBoundingClientRect().bottom;
             var isVisible = (elemTop >= 0) && (elemBottom - el.offsetHeight <= window.innerHeight);
-
+            if(isVisible) {
+                console.log("In view!");
+            }
             return isVisible;
         }
 

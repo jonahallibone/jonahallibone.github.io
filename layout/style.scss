@@ -54,11 +54,13 @@ put logo outside nav, but in header
 flex-wrap: nowrap;
 ==========================
 *****/
+* {
+    font-family: 'sofia_prolight', sans-serif !important;
+}
 html,body {
   min-height: 100%;
   width: 100%;
   margin: 0 auto;
-  font-family: 'sofia_prolight', sans-serif;
 }
 
 .container {
@@ -75,6 +77,8 @@ nav {
   justify-content: space-around;
   box-shadow: 0 0 7px 1px $slightshadow;
   box-sizing: border-box;
+  font-family: 'sofia_prolight', sans-serif;
+
 
   .hamburger {
     @include flex-column-around;
